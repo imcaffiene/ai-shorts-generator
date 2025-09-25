@@ -1,31 +1,33 @@
 'use client';
 
-import { BorderBeam } from "@/components/ui/border-beam";
+import { AuroraText } from "@/components/ui/aurora-text";
 import { Button } from "@/components/ui/button";
-import ColourfulText from "@/components/ui/colourful-text";
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
+import CreditsButton from "@/modules/creditsButton";
 import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 
 interface CreateProjectProps {
   user: string | null;
+  credits: number;
 }
 
-const CreateProject = ({ user }: CreateProjectProps) => {
-
-  const placeholders = [
-    "What's the first rule of Fight Club?",
-    "Who is Tyler Durden?",
-    "Where is Andrew Laeddis Hiding?",
-    "Write a Javascript method to reverse a string",
-    "How to assemble your own PC?",
-  ];
+const CreateProject = ({ user, credits }: CreateProjectProps) => {
 
   const [prompt, setPrompt] = useState("");
 
+
+  const placeholders = useMemo(() => [
+    "Enter your prompt here",
+    "Type your prompt here",
+    " What do you want to see in your shorts video?"
+  ], []);
+
   return (
+
+
     <div className="w-screen h-screen flex flex-col">
       {!user &&
         <div className="flex justify-end gap-2 mr-7 mt-5">
@@ -46,6 +48,7 @@ const CreateProject = ({ user }: CreateProjectProps) => {
       {user &&
         <>
           <div className="flex justify-end mr-7 mt-5">
+            <CreditsButton credits={credits} />
             <Link href={'/dashboard'}>
               <Button className='bg-gradient-to-br hover:opacity-80 text-white rounded-full from-[#3352CC] to-[#1C2D70] font-medium mx-2 cursor-pointer'
               >
@@ -66,21 +69,22 @@ const CreateProject = ({ user }: CreateProjectProps) => {
         </>
       }
 
-      <h1 className="text-4xl md:text-4xl lg:text-6xl font-semibold max-w-7xl mx-auto text-center mt-6 relative z-20 py-6 bg-clip-text text-transparent bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-700 dark:from-neutral-800 dark:via-white dark:to-white">
-        Generate realistic <ColourfulText text="shorts" /> <br />
-        <div className='h-6'></div>
+      <h1 className="text-8xl md:text-4xl lg:text-6xl font-semibold max-w-7xl mx-auto text-center mt-6 relative z-20 py-6 bg-clip-text text-transparent bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-700 dark:from-neutral-800 dark:via-white dark:to-white">
+        Generate Realistic {""}
+        <AuroraText> shorts</AuroraText>
+        <br />
         video with AI
       </h1>
 
-      <div className="flex justify-center mt-auto mb-[400px]">
-        <div className="relative rounded-3xl w-[500px] overflow-hidden">
-          <BorderBeam
-            className="z-10"
-          />
+      <div className="flex justify-center mt-8">
+        <div className="relative rounded-3xl w-[500px] ">
+
           <PlaceholdersAndVanishInput
             placeholders={placeholders}
-            onChange={(e) => { setPrompt(e.target.value); }}
-            onSubmit={(e) => { }}
+            onChange={(e) => setPrompt(e.target.value)}
+            onSubmit={() => {
+              console.log("Submitted");
+            }}
           />
         </div>
       </div>
