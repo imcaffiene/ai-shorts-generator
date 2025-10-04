@@ -9,30 +9,33 @@ datasource db {
 }
 
 model User {
+  userId    String   @id @default(cuid())
   name      String?
   email     String   @unique
-  userId    String   @id
   credits   Int      @default(1)
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   videos Video[]
 }
 
 model Video {
-  videoId     String   @id
-  createdAt   DateTime @default(now())
-  prompt      String
-  processing  Boolean
-  failed      Boolean? @default(false)
-  content     String?
-  imagePrompt String[]
-  imageUrl    String[]
-  audio       String?
-  videoUrl    String?
-  caption     Json?
-  duration    Int?
-  thumbnail   String?
+  videoId      String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  prompt       String
+  processing   Boolean  @default(false)
+  failed       Boolean  @default(false)
+  content      String?
+  imagePrompts String[]
+  imageUrls    String[]
+  audio        String?
+  videoUrl     String?
+  captions     Json?
+  duration     Int?
+  thumbnail    String?
+  userId       String
+  user         User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
-  user   User?   @relation(fields: [userId], references: [userId])
-  userId String?
+  @@index([userId])
 }
