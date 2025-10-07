@@ -8,12 +8,6 @@ interface TooltipCreditsProps {
 
 /**
  * TooltipCredits Component - Displays user credit balance with pricing access
- * 
- * Features:
- * - Shows credit count with lightning bolt icon
- * - Tooltip displays remaining credits and pricing button
- * - Optimized for performance and accessibility
- * - Uses Next.js client-side navigation for better UX
  */
 export default function TooltipCredits({ credits }: TooltipCreditsProps) {
   const router = useRouter();
